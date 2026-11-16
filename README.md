@@ -4,8 +4,6 @@ A tiny package manager for Lua. One file, no install step.
 
 **Homepage and package browser: https://thegamingmahi.github.io/Moondust/**
 
-> Early stage. The loader works, and the website and publishing are still being built.
-
 ## Quick start
 
 1. Download `moondust.lua` and put it next to your script:
