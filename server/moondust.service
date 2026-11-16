@@ -1,0 +1,19 @@
+[Unit]
+Description=Moondust registry server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/opt/moondust/moondust-server
+EnvironmentFile=/etc/moondust.env
+Restart=always
+RestartSec=3
+MemoryMax=64M
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
