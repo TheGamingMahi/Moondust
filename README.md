@@ -36,6 +36,22 @@ moondust("thegamingmahi/tinyfiles@1.0.0")    -- exact version
 
 Moondust remembers which version "latest" meant in a `moondust.lock` file, so your code doesn't change under you. Run `lua moondust.lua update thegamingmahi/tinyfiles` to move to a newer one.
 
+## Editor autocomplete
+
+On the first download, Moondust creates a small `.luarc.json` next to your script. Editors that use the Lua language server (the Lua extension for VS Code, Neovim, Zed) then autocomplete `moondust("...")` like a normal `require`:
+
+```lua
+local moondust = require("moondust")   -- keep this variable name
+local tf = moondust("thegamingmahi/tinyfiles")
+tf.   -- suggestions appear here
+```
+
+- Functions that a package creates as globals, like `wait()` and `writefile()` in TinyFiles, autocomplete too.
+- It works even if `lua_modules` is in your `.gitignore`.
+- Packages are saved as `lua_modules/author/package.lua`. Other exact versions you ask for are saved as `author/package@1.0.0.lua`.
+- If you already have a `.luarc.json`, Moondust leaves it alone and prints the three settings to add.
+- Set `MOONDUST_NO_LUARC=1` to turn this off. If suggestions don't show up, reload your editor window once.
+
 ## Command line
 
 The same file works as a command:
