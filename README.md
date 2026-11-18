@@ -4,6 +4,8 @@ A tiny package manager for Lua. One file, no install step.
 
 **Homepage and package browser: https://thegamingmahi.github.io/Moondust/**
 
+> Early stage. The loader works, and the website and publishing are still being built.
+
 ## Quick start
 
 1. Download `moondust.lua` and put it next to your script:
@@ -17,8 +19,10 @@ A tiny package manager for Lua. One file, no install step.
    ```lua
    local moondust = require("moondust")
 
-   local json = moondust("alice/json")
-   print(json.encode({ hello = "world" }))
+   moondust("thegamingmahi/tinyfiles")
+
+   writefile("hello.txt", "Hi from Moondust")
+   print(readfile("hello.txt"))
    ```
 
 The first run downloads the package into a `lua_modules/` folder. After that it loads from disk.
@@ -26,20 +30,20 @@ The first run downloads the package into a `lua_modules/` folder. After that it 
 ## Versions
 
 ```lua
-moondust("alice/json")          -- latest version
-moondust("alice/json@1.0.0")    -- exact version
+moondust("thegamingmahi/tinyfiles")          -- latest version
+moondust("thegamingmahi/tinyfiles@1.0.0")    -- exact version
 ```
 
-Moondust remembers which version "latest" meant in a `moondust.lock` file, so your code doesn't change under you. Run `lua moondust.lua update alice/json` to move to a newer one.
+Moondust remembers which version "latest" meant in a `moondust.lock` file, so your code doesn't change under you. Run `lua moondust.lua update thegamingmahi/tinyfiles` to move to a newer one.
 
 ## Command line
 
 The same file works as a command:
 
 ```
-lua moondust.lua install alice/json
-lua moondust.lua install alice/json@1.0.0
-lua moondust.lua update alice/json
+lua moondust.lua install thegamingmahi/tinyfiles
+lua moondust.lua install thegamingmahi/tinyfiles@1.0.0
+lua moondust.lua update thegamingmahi/tinyfiles
 ```
 
 Logging in and publishing from the command line are coming soon.
@@ -50,10 +54,10 @@ Logging in and publishing from the command line are coming soon.
 
    ```json
    {
-     "name": "json",
+     "name": "tinyfiles",
      "version": "1.0.0",
-     "description": "Small JSON encoder/decoder",
-     "main": "json.lua",
+     "description": "Tiny Lua library for reading and writing files",
+     "main": "tinyfiles.lua",
      "lua": ["5.1", "5.3", "5.4"]
    }
    ```
@@ -89,4 +93,4 @@ Moondust downloads and runs code from the internet. Pinning to a commit stops a 
 
 ## License
 
-MIT, see [LICENSE](LICENSE). The registry server is in [`server/`](server/), with setup steps in [`server/DEPLOY.md`](server/DEPLOY.md).
+MIT, see [LICENSE](LICENSE). The registry server source is in [`server/`](server/).
