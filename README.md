@@ -2,7 +2,8 @@
 
 A tiny package manager for Lua. One file, no install step.
 
-**Homepage and package browser: https://thegamingmahi.github.io/Moondust/**
+**Homepage and package browser: https://thegamingmahi.github.io/Moondust/**  
+**Full documentation: https://thegamingmahi.github.io/Moondust/docs.html**
 
 ## Quick start
 
@@ -54,13 +55,17 @@ tf.   -- suggestions appear here
 
 The same file works as a command:
 
-```
-lua moondust.lua install thegamingmahi/tinyfiles
-lua moondust.lua install thegamingmahi/tinyfiles@1.0.0
-lua moondust.lua update thegamingmahi/tinyfiles
-```
+| Command | What it does |
+|---|---|
+| `lua moondust.lua install author/package` | Download the latest version and record it in `moondust.lock` |
+| `lua moondust.lua install author/package@1.0.0` | Same, for an exact version |
+| `lua moondust.lua update author/package` | Switch one package to its newest version |
+| `lua moondust.lua update` | Update every package in `moondust.lock` |
+| `lua moondust.lua list` | Show installed packages with their version and checksum |
+| `lua moondust.lua verify` | Check every installed file against `moondust.lock` (exit code 1 if anything is wrong) |
+| `lua moondust.lua uninstall author/package` | Remove a package and its lock entry |
 
-Logging in and publishing from the command line are coming soon.
+Logging in and publishing from the command line are coming soon. For now, publish on the website.
 
 ## Publishing a package
 
@@ -93,17 +98,30 @@ Each version is pinned to your repo's latest commit at that moment. To release a
 
 - Lua 5.1 to 5.5 or LuaJIT. If a package only supports certain versions, you get a clear error instead of a confusing syntax error.
 - `curl`, which is already on macOS, Linux and Windows 10 and later.
-- Pure Lua packages only. No C code or build steps.
 - LÖVE 12 or newer works too. It uses LÖVE's built-in https module instead of curl, and LÖVE runs LuaJIT, so packages need to list `5.1`. Call moondust from `love.load`, because downloads block.
 - It won't work where neither `curl` nor LÖVE's https module is available, such as Roblox.
 
-## Safety
+## Checksums and safety
 
-Moondust downloads and runs code from the internet. Pinning to a commit stops a package from changing later, but packages aren't reviewed. Check what you install, the same as with any package manager.
+- Every version is pinned to an exact commit, so a package can't change after it's published.
+- `moondust.lock` also stores a SHA-256 checksum of each package it installs. If you download that version again (a fresh clone, a restored file), the download must match the checksum or it's refused. Commit `moondust.lock` to git so your whole team gets the same files.
+- `lua moondust.lua verify` checks your installed files against the lock. Set `MOONDUST_VERIFY=1` to check on every load (slower).
+- Checksums need `sha256sum`, `shasum`, `openssl` or `certutil` (all common), or LÖVE. Without one, Moondust warns and skips the check.
+- Packages aren't reviewed. Moondust downloads and runs code from the internet, so check what you install, the same as with any package manager.
+
+## Limits
+
+Moondust is small on purpose. Right now:
+- A package is one `.lua` file in the root of its repo. Several files, data files and dependencies are not supported yet.
+- Pure Lua only. No C code and no build steps.
+- Packages are published on the website, and only from repos you own personally (not organizations).
+- The registry has no review process, and no checksum is stored there yet. The first download is trusted by its commit.
+- There's no way to remove a package from the website yet. Report problems by opening an issue on this repo.
 
 ## Links
 
 - Homepage and package browser: https://thegamingmahi.github.io/Moondust/
+- Documentation: https://thegamingmahi.github.io/Moondust/docs.html
 
 ## License
 
